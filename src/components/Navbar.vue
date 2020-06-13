@@ -18,7 +18,7 @@
               </div>
             </div>
           </b-nav-form>
-          <add-title @created="handleCreate" />
+          <add-title />
 
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->

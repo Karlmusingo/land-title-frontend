@@ -6,7 +6,17 @@
   <div>
     <nav-bar username="Karl Musingo" />
     <div class="container mt-3 pl-5 pr-5">
-      <div class="mx-auto pl-5 pr-5">
+      <div class="mx-auto error" v-show="!singleTitle.data.loading && !!singleTitle.data.error">
+        <span>{{singleTitle.data.error && singleTitle.data.error.message}}</span>
+      </div>
+
+      <div class="mx-auto" v-show="singleTitle.data.loading">
+        <div class="text-center">
+          <b-spinner variant="primary" label="Text Centered"></b-spinner>
+        </div>
+      </div>
+
+      <div class="mx-auto pl-5 pr-5" v-show="!singleTitle.data.loading && !singleTitle.data.error">
         <b-img
           class="mb-3"
           src="https://picsum.photos/300/150/?image=41"
@@ -14,12 +24,13 @@
           alt="Fluid-grow image"
         ></b-img>
         <div class="row m-1 d-flex justify-content-between">
-          <h3 class>{{$route.params.slug}}</h3>
+          <h3 class>{{singleTitle.data.title[0].title}}</h3>
           <!-- <h3 class>Single Land Title</h3> -->
           <div class="d-flex align-items-center">
             <b-icon icon="map" font-scale="2.4" class="rounded p-2" variant="info"></b-icon>
             <div>
-              <em>770 Broadway, New York, NY 10003, États-Unis</em>
+              <em>{{singleTitle.data.title[0].address}}</em>
+              <em>{{singleTitle.data.title[0].mortgage}}</em>
             </div>
           </div>
         </div>
@@ -29,8 +40,12 @@
             <span>Karl Musingo</span>
           </div>
           <div>
-            <span>Pending Morgage:</span>
-            <span>0</span>
+            <span>Square Meter:</span>
+            <span>{{singleTitle.data.title[0].squareMeter}}</span>
+          </div>
+          <div>
+            <span>Morgage:</span>
+            <span>{{singleTitle.data.title[0].mortgage}}</span>
           </div>
           <div>
             <div style="font-size: 2rem; font-weight: bold; text-align: center;">Transaction List</div>
@@ -48,11 +63,13 @@
 <script>
 /* eslint-disable max-len */
 import Navbar from "./Navbar";
+import { mapState } from "vuex";
+import store from "../store";
 
 export default {
   name: "SingleLand",
   components: {
-    "nav-bar": Navbar,
+    "nav-bar": Navbar
   },
   data() {
     return {
@@ -89,12 +106,16 @@ export default {
       ]
     };
   },
-   computed: {
-    description: () => mapState(["repos"]).filter()
+  computed: {
+    ...mapState({
+      singleTitle: state => state.singleTitle
+    })
   },
   created() {
     this.property = "Example property update.";
-    console.log($route.params.slug);
+    store.dispatch("getSingleTitle", { title: this.$route.params.slug });
+
+    console.log("$route.params.slug", this.$route.params.slug);
   }
 };
 </script>
@@ -115,5 +136,13 @@ li {
 }
 a {
   color: #42b983;
+}
+
+.error {
+  font-size: 2rem;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  color: red;
 }
 </style>

@@ -31,7 +31,12 @@
           </b-form-group>
 
           <b-form-group id="input-group-owner" label="Owner:" label-for="input-owner">
-            <b-form-input id="input-owner" v-model="form.owner" required placeholder="Owner"></b-form-input>
+            <b-form-input
+              id="input-owner"
+              v-model="form.owner"
+              required
+              placeholder="Owner">
+            </b-form-input>
           </b-form-group>
 
           <b-form-group id="input-group-image" label="Image:" label-for="input-image">
@@ -86,7 +91,7 @@ export default {
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
-      alert(JSON.stringify(this.form));
+      // alert(JSON.stringify(this.form));
     },
     onReset(evt) {
       evt.preventDefault();

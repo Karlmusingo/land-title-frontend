@@ -12,49 +12,55 @@ Vue.use(Vuex);
 
 const states = {
   data: {
-    loading: false,
+    loading: true,
     error: null,
-  },
-};
-const getters = {
-  authenticated(state) {
-    return !!state.data.token || !!localStorage.token;
-  },
-  user(state) {
-    return {
-      firstName: state.data.firstName,
-      lastName: state.data.lastName,
-    };
+    status: 'success',
+    title: [
+      {
+        createdAt: '2020-06-12T11:29:56.246Z',
+        _id: '5ee36cb9da8699002aef99b0',
+        title: 'manut',
+        squareMeter: '60x120',
+        mortgage: 'cleared',
+        address: '23 kco street',
+        __v: 0,
+      },
+    ],
   },
 };
 const mutations = {
-  LOADING_LOGIN: (state) => {
+  GET_SINGLE_TITLE_LOADING: (state) => {
     state.data.loading = true;
   },
-  LOGIN_SUCCESS: (state, payload) => {
+  GET_SINGLE_TITLE_SUCCESS: (state, payload) => {
     state.data = {
       loading: false,
       error: null,
       ...payload,
     };
   },
-  LOGIN_ERROR: (state, payload) => {
+  GET_SINGLE_TITLE_ERROR: (state, payload) => {
     state.data.error = payload;
     state.data.loading = false;
   },
 };
 const actions = {
-  async login({ commit }, data) {
+  async getSingleTitle({ commit }, { title }) {
     try {
-      commit('LOADING_LOGIN');
-      const response = await axios.post('https://land-title.herokuapp.com/api/v1/auth/users/signin', data);
+      commit('GET_SINGLE_TITLE_LOADING');
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/titles/search?param=${title}`,
+        {
+          headers: {
+            authorization:
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZTMzMDZiZGI4ZmNhMDAyYWE0NDZhZiIsImlhdCI6MTU5MTk1MDE5NywiZXhwIjoxNTkyMDM2NTk3fQ.vxzeDMQT0apVVZTAhPwplPUIdDXcKxrlpUHhBGS9n3g',
+          },
+        },
+      );
       const user = response.data.data;
-      localStorage.token = user.token;
-      localStorage.firstName = user.firstName;
-      localStorage.lastName = user.lastName;
-      commit('LOGIN_SUCCESS', user);
+      commit('GET_SINGLE_TITLE_SUCCESS', user);
     } catch (e) {
-      commit('LOGIN_ERROR', e);
+      commit('GET_SINGLE_TITLE_ERROR', e.response.data);
     }
   },
 };
@@ -62,7 +68,7 @@ const actions = {
 export default {
   namespace: true,
   state: states,
-  getters,
+  // getters,
   mutations,
   actions,
 };

@@ -5,6 +5,7 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 
 import login from './login';
+import singleTitle from './singleTitle';
 
 Vue.use(VueAxios, axios);
 // Important attach to instance
@@ -77,25 +78,9 @@ export default new Vuex.Store({
         // console.log(e);
       }
     },
-    async search({ commit }) {
-      try {
-        const response = await axios.get(
-          'https://land-title.herokuapp.com/api/v1/titles/search?',
-          {
-            headers: {
-              authorization:
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZTMzMDZiZGI4ZmNhMDAyYWE0NDZhZiIsImlhdCI6MTU5MTk1MDE5NywiZXhwIjoxNTkyMDM2NTk3fQ.vxzeDMQT0apVVZTAhPwplPUIdDXcKxrlpUHhBGS9n3g',
-            },
-          },
-        );
-        const title = response.data && response.data.title;
-        commit('SET_SINGLE_TITLE', title);
-      } catch (e) {
-        // this.errors.push(e);
-      }
-    },
   },
   modules: {
     login,
+    singleTitle,
   },
 });
