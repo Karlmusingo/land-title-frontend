@@ -15,7 +15,7 @@
             tag="article"
             style="max-width: 20rem;"
             class="mb-2 m-3"
-            v-for="(land) in titles"
+            v-for="(land) in filteredTitles"
             :title="land.title"
             :key="land.id"
           >
@@ -45,13 +45,21 @@ export default {
     "nav-bar": Navbar
   },
   computed: {
-    ...mapState(["titles"])
+    ...mapState(["titles", 'filteredTitles'])
   },
   data() {
     return {
       msg: "Welcome to Your Vue.js App"
     };
-  }
+  },
+  created() {
+    this.$store.dispatch('getTitles');
+    console.log(
+      '%cDispatched Action',
+      'color: white; background: green; font-weight: bold;',
+    );
+    console.time();
+  },
 };
 </script>
 

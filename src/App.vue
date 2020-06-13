@@ -7,14 +7,6 @@
 <script>
 export default {
   name: 'App',
-  created() {
-    this.$store.dispatch('getTitles');
-    console.log(
-      '%cDispatched Action',
-      'color: white; background: green; font-weight: bold;',
-    );
-    console.time();
-  },
 };
 </script>
 

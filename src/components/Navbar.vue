@@ -10,20 +10,20 @@
         <b-navbar-nav class="ml-auto">
           <b-nav-form>
             <div class="input-group">
-              <b-form-input placeholder="Search"></b-form-input>
+              <b-form-input placeholder="Search" @keyup="filter"></b-form-input>
               <div class="input-group-append">
-                <b-button class="my-2 my-sm-0" variant="secondary" va type="submit">
+                <b-button class="my-2 my-sm-0" variant="secondary" type="submit">
                   <b-icon icon="search"></b-icon>
                 </b-button>
               </div>
             </div>
           </b-nav-form>
-          <add-title @created="handleCreate"  />
+          <add-title @created="handleCreate" />
 
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->
             <template v-slot:button-content>
-              <em>{{username}}</em>
+              <em>{{user.firstName}} {{user.lastName}}</em>
             </template>
             <!-- <b-dropdown-item href="#">Profile</b-dropdown-item> -->
             <b-dropdown-item href="#">Sign Out</b-dropdown-item>
@@ -35,7 +35,9 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 import AddTitle from './AddTitle';
+import store from '../store';
 
 export default {
   name: 'NavBar',
@@ -47,6 +49,19 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
     };
+  },
+  computed: {
+    ...mapGetters(['user']),
+  },
+  methods: {
+    ...mapActions({
+      filter: 'filter',
+    }),
+    filter: (text) => {
+      store.dispatch('filter', {
+        text: text.target.value,
+      });
+    },
   },
 };
 </script>
