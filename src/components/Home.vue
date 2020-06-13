@@ -19,7 +19,7 @@
             :title="land.title"
             :key="land.id"
           >
-            <b-card-text>{{land.title}}</b-card-text>
+            <b-card-text>{{land.address}}</b-card-text>
             <b-button
               block
               pill

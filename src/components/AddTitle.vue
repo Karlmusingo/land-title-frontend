@@ -21,22 +21,12 @@
             ></b-form-input>
           </b-form-group>
 
-          <b-form-group id="input-group-location" label="Location:" label-for="input-location">
-            <b-form-input
-              id="input-location"
-              v-model="form.location"
-              required
-              placeholder="Location"
-            ></b-form-input>
+          <b-form-group id="input-group-address" label="Address:" label-for="address">
+            <b-form-input id="address" v-model="form.address" required placeholder="Address" />
           </b-form-group>
 
           <b-form-group id="input-group-owner" label="Owner:" label-for="input-owner">
-            <b-form-input
-              id="input-owner"
-              v-model="form.owner"
-              required
-              placeholder="Owner">
-            </b-form-input>
+            <b-form-input id="input-owner" v-model="form.owner" required placeholder="Owner" />
           </b-form-group>
 
           <b-form-group id="input-group-image" label="Image:" label-for="input-image">
@@ -50,13 +40,27 @@
           </b-form-group>
 
           <b-form-group
-            id="input-group-pendingMorgage"
-            label="Pending Morgage ($):"
-            label-for="input-pendingMorgage"
+            id="input-group-squareMeter"
+            label="Square Meter (m2):"
+            label-for="input-squareMeter"
           >
             <b-form-input
-              id="input-pendingMorgage"
-              v-model="form.pendingMorgage"
+              id="input-squareMeter"
+              v-model="form.squareMeter"
+              required
+              type="number"
+              placeholder="Square Meter"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-mortgage"
+            label="Pending Morgage ($):"
+            label-for="input-mortgage"
+          >
+            <b-form-input
+              id="input-mortgage"
+              v-model="form.mortgage"
               required
               type="number"
               placeholder="Pending Morgage"
@@ -64,8 +68,27 @@
           </b-form-group>
 
           <div class="row m-1 d-flex justify-content-end">
-            <b-button type="reset" variant="danger" class="mr-3">Reset</b-button>
-            <b-button type="submit" variant="primary">Submit</b-button>
+            <b-button type="reset" variant="danger" class="mr-3 col-md-4">Reset</b-button>
+            <!-- <b-button type="submit" variant="primary">Submit</b-button> -->
+            <!-- <div class="row" style="margin-left: 0;"> -->
+            <b-overlay
+              :show="addTitle.data.loading"
+              rounded
+              opacity="0.6"
+              spinner-small
+              spinner-variant="primary"
+              class="d-inline-block col-md-4"
+            >
+              <b-button
+                ref="button"
+                type="submit"
+                :disabled="addTitle.data.loading"
+                variant="primary"
+                class="btn btn-primary col-md-12"
+                @click="onSubmit"
+              >Submit</b-button>
+            </b-overlay>
+            <!-- </div> -->
           </div>
         </b-form>
       </div>
@@ -73,6 +96,8 @@
   </div>
 </template>
 <script>
+import { mapState, mapActions } from 'vuex';
+
 export default {
   props: ['open'],
   data() {
@@ -80,28 +105,59 @@ export default {
       openModal: false,
       form: {
         title: '',
-        location: '',
+        address: '',
         file: null,
         owner: '',
-        pendingMorgage: 0,
+        squareMeter: '',
+        mortgage: '0',
       },
       show: true,
+      error: '',
     };
   },
+  computed: {
+    ...mapState({
+      addTitle: state => state.addTitle,
+    }),
+    // loginResponse: login.data,
+  },
   methods: {
+    ...mapActions({
+      createTitle: 'addTitle/createTitle',
+    }),
+    validateForm() {
+      const { title, address, owner, squareMeter, mortgage } = this.form;
+      const hasError = !!(title || address || owner || squareMeter || mortgage);
+      this.error = 'fill all the field';
+      return hasError;
+    },
     onSubmit(evt) {
       evt.preventDefault();
-      // alert(JSON.stringify(this.form));
+
+      if (this.validateForm()) {
+        const { title, address, squareMeter, mortgage } = this.form;
+        this.$store
+          .dispatch('createTitle', {
+            title,
+            address,
+            // owner,
+            squareMeter,
+            mortgage,
+          })
+          .then(() => {
+            this.$router.push({ name: 'Home' });
+          });
+      }
     },
     onReset(evt) {
       evt.preventDefault();
       // Reset our form values
 
       this.form.title = '';
-      this.form.location = '';
+      this.form.address = '';
       this.form.file = null;
       this.form.owner = '';
-      this.form.pendingMorgage = 0;
+      this.form.mortgage = 0;
 
       // Trick to reset/clear native browser form validation state
       this.show = false;

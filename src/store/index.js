@@ -6,6 +6,7 @@ import VueAxios from 'vue-axios';
 
 import login from './login';
 import singleTitle from './singleTitle';
+import addTitle from './addTitle';
 
 Vue.use(VueAxios, axios);
 // Important attach to instance
@@ -63,7 +64,7 @@ export default new Vuex.Store({
         commit('SET_LOADING_TITLE', true);
         const token = localStorage.token;
         const response = await axios.get(
-          'https://land-title.herokuapp.com/api/v1/titles',
+          'http://localhost:8000/api/v1/titles/',
           {
             headers: {
               authorization: `Bearer ${token}`,
@@ -82,5 +83,6 @@ export default new Vuex.Store({
   modules: {
     login,
     singleTitle,
+    addTitle,
   },
 });
