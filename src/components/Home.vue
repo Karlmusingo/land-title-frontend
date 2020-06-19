@@ -28,6 +28,106 @@
               style="float: right"
             >View more info</b-button>
           </b-card>
+          <b-card
+            img-src="https://picsum.photos/600/300/?image=25"
+            img-alt="Image"
+            img-top
+            tag="article"
+            style="max-width: 20rem;"
+            class="mb-2 m-3"
+            v-for="(land) in filteredTitles"
+            :title="land.title"
+            :key="land.id"
+          >
+            <b-card-text>{{land.address}}</b-card-text>
+            <b-button
+              block
+              pill
+              :to="`/land/${land.title}`"
+              variant="outline-info"
+              style="float: right"
+            >View more info</b-button>
+          </b-card>
+          <b-card
+            img-src="https://picsum.photos/600/300/?image=25"
+            img-alt="Image"
+            img-top
+            tag="article"
+            style="max-width: 20rem;"
+            class="mb-2 m-3"
+            v-for="(land) in filteredTitles"
+            :title="land.title"
+            :key="land.id"
+          >
+            <b-card-text>{{land.address}}</b-card-text>
+            <b-button
+              block
+              pill
+              :to="`/land/${land.title}`"
+              variant="outline-info"
+              style="float: right"
+            >View more info</b-button>
+          </b-card>
+          <b-card
+            img-src="https://picsum.photos/600/300/?image=25"
+            img-alt="Image"
+            img-top
+            tag="article"
+            style="max-width: 20rem;"
+            class="mb-2 m-3"
+            v-for="(land) in filteredTitles"
+            :title="land.title"
+            :key="land.id"
+          >
+            <b-card-text>{{land.address}}</b-card-text>
+            <b-button
+              block
+              pill
+              :to="`/land/${land.title}`"
+              variant="outline-info"
+              style="float: right"
+            >View more info</b-button>
+          </b-card>
+          <b-card
+            img-src="https://picsum.photos/600/300/?image=25"
+            img-alt="Image"
+            img-top
+            tag="article"
+            style="max-width: 20rem;"
+            class="mb-2 m-3"
+            v-for="(land) in filteredTitles"
+            :title="land.title"
+            :key="land.id"
+          >
+            <b-card-text>{{land.address}}</b-card-text>
+            <b-button
+              block
+              pill
+              :to="`/land/${land.title}`"
+              variant="outline-info"
+              style="float: right"
+            >View more info</b-button>
+          </b-card>
+          <b-card
+            img-src="https://picsum.photos/600/300/?image=25"
+            img-alt="Image"
+            img-top
+            tag="article"
+            style="max-width: 20rem;"
+            class="mb-2 m-3"
+            v-for="(land) in filteredTitles"
+            :title="land.title"
+            :key="land.id"
+          >
+            <b-card-text>{{land.address}}</b-card-text>
+            <b-button
+              block
+              pill
+              :to="`/land/${land.title}`"
+              variant="outline-info"
+              style="float: right"
+            >View more info</b-button>
+          </b-card>
         </div>
       </div>
     </div>

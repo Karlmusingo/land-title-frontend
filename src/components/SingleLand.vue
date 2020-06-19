@@ -48,7 +48,11 @@
             <span>{{singleTitle.data.title[0].mortgage}}</span>
           </div>
           <div>
-            <div style="font-size: 2rem; font-weight: bold; text-align: center;">Transaction List</div>
+            <div style="font-size: 2rem; font-weight: bold; text-align: center; position: relative">
+              <span>Transaction List</span>
+              <b-button v-b-modal.modal-2 variant="success" class="transfer-btn">Transfer Title</b-button>
+              <transfer-land />
+            </div>
             <div>
               <!-- <b-icon icon="arrow-down-circle" font-scale="2.4" class="rounded p-2" variant="info"></b-icon> -->
               <b-table striped hover :items="items"></b-table>
@@ -63,13 +67,15 @@
 <script>
 /* eslint-disable max-len */
 import Navbar from "./Navbar";
+import TransferLand from "./TransferLand";
 import { mapState } from "vuex";
 import store from "../store";
 
 export default {
   name: "SingleLand",
   components: {
-    "nav-bar": Navbar
+    "nav-bar": Navbar,
+    'transfer-land': TransferLand,
   },
   data() {
     return {
@@ -144,5 +150,9 @@ a {
   display: flex;
   justify-content: center;
   color: red;
+}
+.transfer-btn {
+  position: absolute;
+  right: 0;
 }
 </style>
